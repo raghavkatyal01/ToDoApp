@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Navbar from './Navbar'
 import InputComponent from './InputComponent'
@@ -14,23 +14,41 @@ function setComponent(){
     setTakeInput(true)
 }
 function updateVal(newVal){
-  const newToDo=[...toDo,newVal]
+  console.log(newVal.length);
+  if(newVal.length>0){
+    const newToDo=[...toDo,newVal]
   setToDo(newToDo)
+ 
+  setTakeInput(false);
+  }
+
+}
+useEffect(()=>{
   const setToDoItem=JSON.stringify(toDo)
   localStorage.setItem("toDoItems",setToDoItem)
-  setTakeInput(false);
-}
+},[toDo])
+
 function onDone(index){
-      const completed=toDo.splice(index,1)[0]
+    const newDo=[...toDo]
+      const completed=newDo.splice(index,1)[0]
+      setToDo(newDo)
       setTimeout(() => {
         setDone([...Done, completed]);
-      }, 500);
+      }, 100);
 }
 function handleAgainDo(index){
       const againDo=Done.splice(index,1)[0]
       setTimeout(() => {
         setToDo([...toDo, againDo]);
-      }, 500);
+      }, 100);
+}
+function handleRemoveItems(index){
+  const newDone=[...Done]
+
+  newDone.splice(index,1)
+
+
+  setDone(newDone)
 }
 
   return (
@@ -40,11 +58,11 @@ function handleAgainDo(index){
     <h1 className='text-3xl p-4 font-bold'>Things to get Done</h1> 
 
     <ThingsToDo toDoVal={toDo} onDone={onDone}/>
-{takeInput?(<InputComponent setTakeInput={setTakeInput} updateVal={updateVal}/> ):
-    <button onClick={setComponent} className='border border-black rounded-lg p-2 ml-2'>+ Add a todo</button>
+{takeInput?(<InputComponent setTakeInput={setTakeInput} updateVal={updateVal} /> ):
+    <button onClick={setComponent} className='border border-black rounded-lg p-2 mt-4 ml-2 bg-gray-300 hover:bg-gray-500'>+ Add a todo</button>
   }
-  <p>Things Done</p>
-  <ThingsDone thingsDone={Done} AgainDo={handleAgainDo}/>
+  
+  <ThingsDone thingsDone={Done} AgainDo={handleAgainDo} removeItem={handleRemoveItems}/>
   </div>
     </>
   )

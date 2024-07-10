@@ -5,12 +5,13 @@ function thingsToDo({toDoVal,onDone}) {
   return (
     <>
     
-      <h1>Things to Do</h1>
+      <h1 className='text-xl p-4 font-bold'>Things to Do</h1>
+      <div className='ml-4 w-96'>
       {toDoVal.map((p,index)=>{
 
            return (
             <>
-            <div key={index} className='flex ml-2 w-16 justify-between'>
+            <div key={index} className='flex ml-2 gap-4'>
         <input type="checkbox" name="inptCheckbox" value="" onChange={()=> onDone(index)}></input>
            <p>{p}</p>
            </div>
@@ -20,6 +21,7 @@ function thingsToDo({toDoVal,onDone}) {
 
       
     }
+    </div>
     </>
   )
 }
