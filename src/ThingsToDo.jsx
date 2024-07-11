@@ -13,7 +13,7 @@ function thingsToDo({toDoVal,onDone}) {
             <>
             <div key={index} className='flex ml-2 gap-4'>
         <input type="checkbox" name="inptCheckbox" value="" onChange={()=> onDone(index)}></input>
-           <p>{p}</p>
+           <p className=''>{p}</p>
            </div>
            </>
            )
